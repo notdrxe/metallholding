@@ -1,6 +1,7 @@
 <?php
 
-function getDbConnection(): PDO
+/** Одно PDO-подключение к MySQL (настройки в config.php). */
+function db(): PDO
 {
     static $pdo = null;
 
@@ -8,20 +9,22 @@ function getDbConnection(): PDO
         return $pdo;
     }
 
-    $config = require __DIR__ . '/config.php';
-    $dsn = sprintf(
-        'mysql:host=%s;port=%d;dbname=%s;charset=%s',
-        $config['host'],
-        $config['port'],
-        $config['database'],
-        $config['charset']
+    $c = require __DIR__ . '/config.php';
+    $pdo = new PDO(
+        sprintf(
+            'mysql:host=%s;port=%d;dbname=%s;charset=%s',
+            $c['host'],
+            (int) $c['port'],
+            $c['database'],
+            $c['charset']
+        ),
+        $c['user'],
+        $c['password'],
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]
     );
-
-    $pdo = new PDO($dsn, $config['user'], $config['password'], [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
 
     return $pdo;
 }

@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "api": "node scripts/start-php-api.mjs",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -11,7 +12,8 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "vue": "^3.5.30"
+    "vue": "^3.5.30",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
