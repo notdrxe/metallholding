@@ -1456,6 +1456,15 @@ body.modal-open {
   background: rgba(255, 255, 255, 0.25);
 }
 
+.product-modal__cart-row .qty-btn {
+  background: rgba(0, 0, 0, 0.1);
+  color: #111;
+}
+
+.product-modal__cart-row .qty-btn:hover {
+  background: rgba(0, 0, 0, 0.18);
+}
+
 .qty-val {
   min-width: 28px;
   text-align: center;

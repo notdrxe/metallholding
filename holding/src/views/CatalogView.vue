@@ -129,12 +129,15 @@
                 <span>Длина: {{ selected.length_mm }} мм</span>
                 <span>Ширина: {{ selected.width_mm }} мм</span>
               </div>
-              <p class="product-modal__price">{{ selected.price_rub }} ₽</p>
+              <p class="product-modal__price">
+                {{ selected.price_rub }} ₽ <span v-if="modalQty > 1">× {{ modalQty }} = {{ selected.price_rub * modalQty }} ₽</span>
+              </p>
               <div class="product-modal__cart-row">
-                <label class="product-modal__qty-label">
-                  Количество
-                  <input v-model.number="modalQty" class="product-modal__qty-input" type="number" min="1" step="1" />
-                </label>
+                <div class="cart-row__qty" style="margin-right: 1rem;">
+                  <button type="button" class="qty-btn" aria-label="Меньше" @click="decModalQty">−</button>
+                  <span class="qty-val">{{ modalQty }}</span>
+                  <button type="button" class="qty-btn" aria-label="Больше" @click="incModalQty">+</button>
+                </div>
                 <button type="button" class="accent-btn" @click="addSelectedToCart">В корзину</button>
               </div>
               <p v-if="addedHint" class="product-modal__hint" role="status">{{ addedHint }}</p>
@@ -193,6 +196,16 @@ const modalQty = ref(1)
 const addedHint = ref('')
 const modalTitleId = 'product-modal-title'
 let hintTimer: ReturnType<typeof setTimeout> | null = null
+
+function incModalQty() {
+  modalQty.value++
+}
+
+function decModalQty() {
+  if (modalQty.value > 1) {
+    modalQty.value--
+  }
+}
 
 function openProduct(product: Product) {
   addedHint.value = ''
